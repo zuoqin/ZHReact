@@ -3,22 +3,11 @@ import ItemListRow from './ItemListRow';
 
 const ItemList = ({items}) => {
   return (
-    <table className="table">
-      <thead>
-      <tr>
-        <th>&nbsp;</th>
-        <th>Title</th>
-        <th>Introduction</th>
-        <th>Published</th>
-        <th>Body</th>
-      </tr>
-      </thead>
-      <tbody>
+    <div className="col-md-12" style={{marginTop: 60+'px'}}>
       {items.map(item =>
         <ItemListRow key={item.Reference} item={item}/>
       )}
-      </tbody>
-    </table>
+    </div>
   );
 };
 

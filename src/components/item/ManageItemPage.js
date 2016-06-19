@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as itemActions from '../../actions/itemActions';
 import ItemForm from './ItemForm';
-import {topicsFormattedForDropdown} from '../../selectors/selectors';
 import toastr from 'toastr';
 
 export class ManageItemPage extends React.Component {
@@ -17,11 +16,10 @@ export class ManageItemPage extends React.Component {
     };
 
     this.updateItemState = this.updateItemState.bind(this);
-    this.saveItem = this.saveItem.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.item.id != nextProps.item.id) {
+    if (this.props.item.Reference != nextProps.item.Reference) {
       // Necessary to populate form when existing item is loaded directly.
       this.setState({item: Object.assign({}, nextProps.item)});
     }
@@ -48,22 +46,6 @@ export class ManageItemPage extends React.Component {
   }
 
 
-  saveItem(event) {
-    event.preventDefault();
-
-    if (!this.itemFormIsValid()) {
-      return;
-    }
-
-    this.setState({saving: true});
-
-    this.props.actions.saveItem(this.state.item)
-      .then(() => this.redirect())
-      .catch(error => {
-        toastr.error(error);
-        this.setState({saving: false});
-      });
-  }
 
   redirect() {
     this.setState({saving: false});
@@ -74,11 +56,7 @@ export class ManageItemPage extends React.Component {
   render() {
     return (
       <ItemForm
-        allTopics={this.props.topics}
-        onChange={this.updateItemState}
-        onSave={this.saveItem}
         item={this.state.item}
-        errors={this.state.errors}
         saving={this.state.saving}
       />
     );
@@ -87,7 +65,6 @@ export class ManageItemPage extends React.Component {
 
 ManageItemPage.propTypes = {
   item: PropTypes.object.isRequired,
-  topics: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
 
@@ -96,8 +73,8 @@ ManageItemPage.contextTypes = {
   router: PropTypes.object
 };
 
-function getItemById(items, id) {
-  const item = items.filter(item => item.id == id);
+function getItemById(items, reference) {
+  const item = items.filter(item => item.Reference == reference);
   if (item) return item[0]; //since filter returns an array, have to grab the first.
   return null;
 }
@@ -105,15 +82,14 @@ function getItemById(items, id) {
 function mapStateToProps(state, ownProps) {
   const itemId = ownProps.params.id; // from the path `/item/:id`
 
-  let item = {Title: '', reference: '', Updated: '', Introduction: '', Body: ''};
+  let item = {Title: '', Reference: '', Updated: '', Introduction: '', Body: ''};
 
   if (itemId && state.items.length > 0) {
     item = getItemById(state.items, itemId);
   }
 
   return {
-    item: item,
-    topics: topicsFormattedForDropdown(state.topics)
+    item: item
   };
 }
 

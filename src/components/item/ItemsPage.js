@@ -23,12 +23,7 @@ class ItemsPage extends React.Component {
     const {items} = this.props;
 
     return (
-      <div>
-        <h1>Items</h1>
-        <input type="submit"
-               value="Add Item"
-               className="btn btn-primary"
-               onClick={this.redirectToAddItemPage}/>
+      <div className="container top-padding-med">
         <ItemList items={items}/>
       </div>
     );

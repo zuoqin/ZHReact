@@ -6,19 +6,16 @@ const ItemListRow = ({item}) => {
     <div className="panel panel-primary">
       <div className="panel-heading">
         <h3 className="panel-title">
-          <a href={item.Reference}>
-            <div>
-              {item.Title}
+          <a href={"/item/" + item.Reference}>
+            <div dangerouslySetInnerHTML={{__html: item.Title}}>
             </div>
           </a>
         </h3>
       </div>
       <div className="panel-body">
-        <div>
-          {item.Introduction}
+        <div dangerouslySetInnerHTML={{__html: item.Introduction}}>
         </div>
-        <div>
-          {item.Published}
+        <div dangerouslySetInnerHTML={{__html: item.Published}}>
         </div>
       </div>
     </div>
