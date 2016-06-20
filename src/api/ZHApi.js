@@ -1,8 +1,4 @@
-import delay from './delay';
 
-// This file mocks a web API by working with the hard-coded data below.
-// It uses setTimeout to simulate the delay of an AJAX call.
-// All calls return promises.
 const items = [
   {
     Title: "Friday Humor: FBI Ends Muslim-American Surveillance After 15-Year Study Of &quot;Beautiful Culture&quot;",
@@ -41,61 +37,78 @@ const items = [
   }
 ];
 
-function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace);
+class ItemApi {
+  static getPageItems(page) {
+    return new Promise((resolve, reject) => {
+      // Instantiates the XMLHttpRequest
+      let url = '/api/page/' + page;
+
+      let req = new XMLHttpRequest();
+      req.open('GET', url);
+
+      req.onload = function() {
+        // This is called even on 404 etc
+        // so check the status
+        if (req.status == 200) {
+          // Resolve the promise with the response text
+          debugger;
+          //resolve(items);
+          resolve(JSON.parse(req.response));
+        }
+        else {
+          // Otherwise reject with the status text
+          // which will hopefully be a meaningful error
+          reject(Error(req.statusText));
+        }
+      };
+
+      // Handle network errors
+      req.onerror = function() {
+        reject(Error("Network Error"));
+      };
+
+      // Make the request
+      req.send();
+    });
+  }
+
+  static getItem(reference) {
+    return new Promise((resolve, reject) => {
+      // Instantiates the XMLHttpRequest
+      let url = '/api/item/' + reference;
+
+      let req = new XMLHttpRequest();
+      req.open('GET', url);
+
+      req.onload = function() {
+        // This is called even on 404 etc
+        // so check the status
+        if (req.status == 200) {
+          // Resolve the promise with the response text
+          debugger;
+          //resolve(items);
+          resolve(JSON.parse(req.response));
+        }
+        else {
+          // Otherwise reject with the status text
+          // which will hopefully be a meaningful error
+          reject(Error(req.statusText));
+        }
+      };
+
+      // Handle network errors
+      req.onerror = function() {
+        reject(Error("Network Error"));
+      };
+
+      // Make the request
+      req.send();
+    });
+  }
+
 }
 
-//This would be performed on the server in a real app. Just stubbing in.
-const generateId = (item) => {
-  return replaceAll(item.title, ' ', '-');
-};
 
-class MockItemApi {
-  static getAllItems() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(Object.assign([], items));
-      }, delay);
-    });
-  }
 
-  static saveItem(item) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate server-side validation
-        const minItemTitleLength = 1;
-        if (item.title.length < minItemTitleLength) {
-          reject(`Title must be at least ${minItemTitleLength} characters.`);
-        }
 
-        if (item.id) {
-          const existingItemIndex = items.findIndex(a => a.id == item.id);
-          items.splice(existingItemIndex, 1, item);
-        } else {
-          //Just simulating creation here.
-          //The server would generate ids and watchHref's for new items in a real app.
-          //Cloning so copy returned is passed by value rather than by reference.
-          item.id = generateId(item);
-          item.reference = `http://www.zerohedge.com/items/${item.id}`;
-          items.push(item);
-        }
-
-        resolve(Object.assign({}, item));
-      }, delay);
-    });
-  }
-
-  static deleteItem(courseId) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const indexOfItemToDelete = items.findIndex(item => {
-          item.courseId == courseId;
-        });
-        items.splice(indexOfItemToDelete, 1);
-        resolve();
-      }, delay);
-    });
-  }
-}
-
-export default MockItemApi;
+export default ItemApi;

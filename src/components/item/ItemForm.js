@@ -17,7 +17,7 @@ const ItemForm = ({item}) => {
 
 ItemForm.propTypes = {
   item: React.PropTypes.object.isRequired,
-  saving: React.PropTypes.bool,
+  saving: React.PropTypes.bool
 };
 
 export default ItemForm;
