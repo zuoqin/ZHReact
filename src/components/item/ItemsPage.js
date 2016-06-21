@@ -11,7 +11,7 @@ class ItemsPage extends React.Component {
     super(props, context);
     debugger;
     this.redirectToAddItemPage = this.redirectToAddItemPage.bind(this);
-    this.props.actions.loadItems(1);
+    this.props.actions.loadItems(props.params.id);
     //this.getPageItems = this.getPageItems.bind(this);
   }
 
@@ -48,11 +48,7 @@ ItemsPage.propTypes = {
 //  };
 //}
 function getPageItems(state, page) {
-  //this.props.actions.loadItems(page)
-  //  .then(() => this.redirect())
-  //  .catch(error => {
-  //    console.log(error.description);
-  //  });
+  return state.items.filter(item => item.pageId == page);
 }
 
 // state references Redux store
@@ -62,7 +58,7 @@ function mapStateToProps(state, ownProps) {
     pageId = 0;
   }
   let items = [];
-  if (pageId > 0) {
+  if (pageId >= 0) {
     debugger
     let tmp_items = getPageItems(state, pageId);
     if(tmp_items !== undefined && tmp_items !== null && tmp_items.length > 0){
@@ -71,7 +67,7 @@ function mapStateToProps(state, ownProps) {
   }
 
   return {
-    items: state.items
+    items: items
   };
 }
 // Manually wrap (see comments below)
