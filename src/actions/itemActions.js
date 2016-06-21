@@ -26,6 +26,9 @@ export function loadItem(reference) {
 export function loadItems(page) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
+    if(page === undefined || page < 0){
+      page = 0;
+    }
     return itemApi.getPageItems(page).then(items => {
       dispatch(loadItemsSuccess(items));
     }).catch(error => {
