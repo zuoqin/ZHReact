@@ -11,10 +11,10 @@ export class ManageItemPage extends React.Component {
 
     this.state = {
       item: Object.assign({}, props.item),
-      errors: {},
-      saving: false
+      errors: {}
     };
 
+    this.props.actions.loadItem(props.item.Reference);
     this.updateItemState = this.updateItemState.bind(this);
   }
 
@@ -47,17 +47,14 @@ export class ManageItemPage extends React.Component {
 
 
 
-  redirect() {
-    this.setState({saving: false});
-    toastr.success('Item saved');
-    this.context.router.push('/items');
-  }
+  //redirect() {
+  //  this.context.router.push('/items');
+  //}
 
   render() {
     return (
       <ItemForm
         item={this.state.item}
-        saving={this.state.saving}
       />
     );
   }
