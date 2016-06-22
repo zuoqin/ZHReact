@@ -1,5 +1,6 @@
 
 let theStories = {};
+let thePages = {};
 
 module.exports = function(app) {
 
@@ -83,12 +84,12 @@ let http = require("http");
       let key = req.params.id;
       if(key == undefined)
         key = 0;
-      //let _id = req.params.id;
-      if( theStories === null || theStories === undefined || !theStories[key] )
+      let today = new Date();
+      if( thePages === null || thePages === undefined || !thePages[key] )
       {
-           theStories[key] = [];
+        thePages[key] = {updated: new Date(2010, 0, 1, 0, 0, 0, 0), items:[]};
       }
-      if(theStories[key].length === 0){
+      if(thePages[key].items.length === 0 || ( (today.getDate() - thePages[key].updated)/1000/60 > 10)   ) {
         console.log("key: " + key);
         download( req, "http://www.zerohedge.com/?page="+key, function(req1, data) {
           if (!data) {
@@ -100,7 +101,7 @@ let http = require("http");
             let j;
             for( j = 0; j < 50; j++) {
               ind1 = data.indexOf("<article class=\"node", ind5);
-              if(ind1 > 0){
+              if (ind1 > 0) {
                 let ind2 = data.indexOf("<h2 class=\"title teaser-title\"><a href=\"", ind1);
                 ind2 = (ind2 + 40);
                 let ind3 = data.indexOf("\">", ind2);
@@ -127,7 +128,7 @@ let http = require("http");
                 ind6 = data.indexOf("</li>", ind5);
                 let published = data.substring(ind5, ind6);
 
-                theStories[key].push({
+                thePages[key].items.push({
                   Introduction: body,
                   Reference: new Buffer(ref).toString('base64'),
                   Title: title,
@@ -137,13 +138,14 @@ let http = require("http");
                 });
               }
             }
-            res.send(theStories[key]);
+            thePages[key].updated = today.getDate();
+            res.send(thePages[key].items);
           }
         });
       }
       else{
-        console.log("Found theer are stories: " + theStories[key].length);
-        res.send(theStories[key]);
+        console.log("Found theer are stories: " + thePages[key].length);
+        res.send(thePages[key].items);
       }
 
   }
@@ -151,53 +153,61 @@ let http = require("http");
 
 
   app.get('/api/item/:id', function(req, res, next){
-    //console.log( "pageId: " + req.params.pageId);
-    //console.log( "Id: " + req.params.id);
+    let today = new Date();
+    if(theStories[req.params.id] !== null &&
+      theStories[req.params.id] !== undefined &&
+      theStories[req.params.id].updated !== undefined &&
+      ( (today.getDate() - theStories[req.params.id].updated)/1000/60 < 10)
+    ){
+      res.send(theStories[req.params.id].item);
+    }else{
+      theStories[req.params.id] = {updated: new Date(2010, 0, 1, 0, 0, 0, 0), item:{}};
+      let ref = "http://www.zerohedge.com" + new Buffer(req.params.id, 'base64').toString('ascii');
+      let Reference = req.params.id;
+      console.log( "Reference for a story: " + ref);
+      download( req, ref, function(req, data) {
+        if (data) {
+          let pos1 = data.indexOf("<title>");
+          pos1 = pos1 + 7;
+          let pos2 = data.indexOf("| Zero Hedge") - 1;
+          let title = data.substring(pos1, pos2);
 
-    //let story = theStories[req.params.id];
-    let ref = "http://www.zerohedge.com" + new Buffer(req.params.id, 'base64').toString('ascii');
-    let Reference = req.params.id;
-    console.log( "Reference for a story: " + ref);
-    download( req, ref, function(req, data) {
-      if (data) {
-        let pos1 = data.indexOf("<title>");
-        pos1 = pos1 + 7;
-        let pos2 = data.indexOf("| Zero Hedge") - 1;
-        let title = data.substring(pos1, pos2);
 
+          pos1 = data.indexOf("<div class=\"submitted_datetime\">", pos1);
+          pos1 = data.indexOf("<span title", pos1 + 10);
+          pos1 = data.indexOf(">", pos1 + 10);
+          pos1 = pos1 + 1;
+          pos2 = data.indexOf("</span>", pos1 + 5);
+          let published = data.substring(pos1, pos2);
 
-        pos1 = data.indexOf("<div class=\"submitted_datetime\">", pos1);
-        pos1 = data.indexOf("<span title", pos1 + 10);
-        pos1 = data.indexOf(">", pos1 + 10);
-        pos1 = pos1 + 1;
-        pos2 = data.indexOf("</span>", pos1 + 5);
-        let published = data.substring(pos1, pos2);
+          pos1 = data.indexOf("<main>", 0);
+          pos1 = pos1 + 10;
+          pos1 = data.indexOf("<div class=\"content\">", pos1);
+          pos1 = pos1 + 21;
 
-        pos1 = data.indexOf("<main>", 0);
-        pos1 = pos1 + 10;
-        pos1 = data.indexOf("<div class=\"content\">", pos1);
-        pos1 = pos1 + 21;
+          pos2 = data.indexOf("<div class=\"taxonomy\"", pos1);
+          if(pos2 === -1){
+            pos2 = data.indexOf("<div class=\"node-links\">", pos1);
+          }
 
-        pos2 = data.indexOf("<div class=\"taxonomy\"", pos1);
-        if(pos2 === -1){
-          pos2 = data.indexOf("<div class=\"node-links\">", pos1);
+          console.log( "Getting content between " + pos1 + " and " + pos2);
+          let content = data.substring(pos1, pos2);
+          let item = {
+            Published:published,
+            Title:title,
+            Body:content,
+            Reference: Reference
+          };
+          theStories[req.params.id].updated = today.getDate();
+          theStories[req.params.id].item = item;
+          res.send(item);
+        }
+        else{
+          res.send("No data found");
         }
 
-        console.log( "Getting content between " + pos1 + " and " + pos2);
-        let content = data.substring(pos1, pos2);
-        let item = {
-          Published:published,
-          Title:title,
-          Body:content,
-          Reference: Reference
-        };
-        res.send(item);
-       }
-      else{
-        res.send("No data found");
-      }
-
-    });
+      });
+    }
   });
 
 

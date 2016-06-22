@@ -12,7 +12,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
 
 const store = configureStore();
-store.dispatch(loadItems(0));
+//store.dispatch(loadItems(0));
 
 render(
   <Provider store={store}>

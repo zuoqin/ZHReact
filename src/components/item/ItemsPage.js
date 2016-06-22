@@ -39,7 +39,8 @@ class ItemsPage extends React.Component {
 
 ItemsPage.propTypes = {
   items: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired
 };
 
 //function mapStateToProps(state, ownProps) {
@@ -59,7 +60,6 @@ function mapStateToProps(state, ownProps) {
   }
   let items = [];
   if (pageId >= 0) {
-    debugger
     let tmp_items = getPageItems(state, pageId);
     if(tmp_items !== undefined && tmp_items !== null && tmp_items.length > 0){
       items = tmp_items;

@@ -55,7 +55,8 @@ export class ManageItemPage extends React.Component {
 
 ManageItemPage.propTypes = {
   item: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired
 };
 
 //Pull in the React Router context so router is available on this.context.router.
