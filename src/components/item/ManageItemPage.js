@@ -13,9 +13,8 @@ export class ManageItemPage extends React.Component {
       item: Object.assign({}, props.item),
       errors: {}
     };
-
-    this.props.actions.loadItem(props.item.Reference);
-    this.updateItemState = this.updateItemState.bind(this);
+    debugger;
+    this.props.actions.loadItem(props.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,12 +24,6 @@ export class ManageItemPage extends React.Component {
     }
   }
 
-  updateItemState(event) {
-    const field = event.target.name;
-    let item = this.state.item;
-    item[field] = event.target.value;
-    return this.setState({item: item});
-  }
 
   itemFormIsValid() {
     let formIsValid = true;

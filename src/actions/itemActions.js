@@ -12,11 +12,15 @@ export function loadItemsSuccess(items) {
   return { type: types.LOAD_ITEMS_SUCCESS, items};
 }
 
+export function loadItemSuccess(item) {
+  return { type: types.LOAD_ITEM_SUCCESS, item};
+}
+
 export function loadItem(reference) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
     return itemApi.getItem(reference).then(item => {
-      dispatch(loadItemsSuccess(item));
+      dispatch(loadItemSuccess(item));
     }).catch(error => {
       throw(error);
     });

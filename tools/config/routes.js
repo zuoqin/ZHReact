@@ -143,13 +143,14 @@ let http = require("http");
       }
       else{
         console.log("Found theer are stories: " + theStories[key].length);
+        res.send(theStories[key]);
       }
 
   }
   );
 
 
-  app.get('/api/story/:id', function(req, res, next){
+  app.get('/api/item/:id', function(req, res, next){
     //console.log( "pageId: " + req.params.pageId);
     //console.log( "Id: " + req.params.id);
 
