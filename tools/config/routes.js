@@ -90,12 +90,12 @@ let http = require("http");
         thePages[key] = {updated: new Date(2010, 0, 1, 0, 0, 0, 0), items:[]};
       }
       if(thePages[key].items.length === 0 || ( (today.getDate() - thePages[key].updated)/1000/60 > 10)   ) {
-        console.log("key: " + key);
+        //console.log("key: " + key);
         download( req, "http://www.zerohedge.com/?page="+key, function(req1, data) {
           if (!data) {
             res.send("");
           } else {
-            console.log("Downloaded some data from zerohedge");
+            //console.log("Downloaded some data from zerohedge");
             let ind1 = data.indexOf("view view-zh-frontpage view-id-zh_frontpage view-display-id-page_1 view-dom-id-1", 0);
             let ind5 = 0;
             let j;
@@ -144,7 +144,7 @@ let http = require("http");
         });
       }
       else{
-        console.log("Found theer are stories: " + thePages[key].length);
+        //console.log("Found there are stories: " + thePages[key].length);
         res.send(thePages[key].items);
       }
 
@@ -164,7 +164,7 @@ let http = require("http");
       theStories[req.params.id] = {updated: new Date(2010, 0, 1, 0, 0, 0, 0), item:{}};
       let ref = "http://www.zerohedge.com" + new Buffer(req.params.id, 'base64').toString('ascii');
       let Reference = req.params.id;
-      console.log( "Reference for a story: " + ref);
+      //console.log( "Reference for a story: " + ref);
       download( req, ref, function(req, data) {
         if (data) {
           let pos1 = data.indexOf("<title>");
@@ -187,10 +187,10 @@ let http = require("http");
 
           pos2 = data.indexOf("<div class=\"taxonomy\"", pos1);
           if(pos2 === -1){
-            pos2 = data.indexOf("<div class=\"node-links\">", pos1);
+            pos2 = data.indexOf("<div class=\"node", pos1);
           }
 
-          console.log( "Getting content between " + pos1 + " and " + pos2);
+          //console.log( "Getting content between " + pos1 + " and " + pos2);
           let content = data.substring(pos1, pos2);
           let item = {
             Published:published,

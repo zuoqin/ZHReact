@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as itemActions from '../../actions/itemActions';
 import ItemForm from './ItemForm';
-import toastr from 'toastr';
 
 export class ManageItemPage extends React.Component {
   constructor(props, context) {

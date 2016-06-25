@@ -6,8 +6,9 @@ import ItemList from './ItemList';
 import {browserHistory} from 'react-router';
 
 
-class ItemsPage extends React.Component {
+export class ItemsPage extends React.Component {
   constructor(props, context) {
+    debugger;
     super(props, context);
     debugger;
     this.redirectToAddItemPage = this.redirectToAddItemPage.bind(this);
@@ -54,6 +55,7 @@ function getPageItems(state, page) {
 
 // state references Redux store
 function mapStateToProps(state, ownProps) {
+  debugger;
   let pageId = ownProps.params.id; // from the path `/page/:id`
   if(pageId === undefined || pageId === null){
     pageId = 0;
@@ -67,7 +69,8 @@ function mapStateToProps(state, ownProps) {
   }
 
   return {
-    items: items
+    items: items,
+    id: pageId
   };
 }
 // Manually wrap (see comments below)
@@ -108,8 +111,8 @@ function mapDispatchToProps(dispatch) {
 //    2. Redux concerns in child components
 // 2. Manually wrap (see above);
 // 3. Use bindActionCreators (see above)
-export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);
-
+// export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);
+export default ItemsPage;
 // can use alternative:
 // const connectedStateAndProps = connect(mapStateToProps, mapDispatchToProps);
 // export default connectedStateAndProps(ItemsPage);
