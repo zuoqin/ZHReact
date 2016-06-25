@@ -51,7 +51,6 @@ class ItemApi {
         // so check the status
         if (req.status == 200) {
           // Resolve the promise with the response text
-          debugger;
           //resolve(items);
           resolve(JSON.parse(req.response));
         }
@@ -85,7 +84,6 @@ class ItemApi {
         // so check the status
         if (req.status == 200) {
           // Resolve the promise with the response text
-          debugger;
           //resolve(items);
           resolve(JSON.parse(req.response));
         }

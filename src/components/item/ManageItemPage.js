@@ -12,7 +12,6 @@ export class ManageItemPage extends React.Component {
       item: Object.assign({}, props.item),
       errors: {}
     };
-    debugger;
     this.props.actions.loadItem(props.params.id);
   }
 
@@ -23,19 +22,6 @@ export class ManageItemPage extends React.Component {
     }
   }
 
-
-  itemFormIsValid() {
-    let formIsValid = true;
-    let errors = {};
-
-    if (this.state.item.title.length < 5) {
-      errors.title = 'Title must be at least 5 characters.';
-      formIsValid = false;
-    }
-
-    this.setState({errors: errors});
-    return formIsValid;
-  }
 
 
 

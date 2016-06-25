@@ -12,7 +12,9 @@ export class ItemsPage extends React.Component {
     super(props, context);
     debugger;
     this.redirectToAddItemPage = this.redirectToAddItemPage.bind(this);
-    this.props.actions.loadItems(props.params.id);
+
+    this.props.actions.loadItems(props.params.id === undefined ?
+      props.page : props.params.id);
     //this.getPageItems = this.getPageItems.bind(this);
   }
 
@@ -25,11 +27,13 @@ export class ItemsPage extends React.Component {
   }
 
   render() {
+    debugger;
     const {items} = this.props;
+    const {actions} = this.props;
 
     return (
       <div className="container top-padding-med">
-        <ItemList items={items}/>
+        <ItemList items={items} actions={actions}/>
       </div>
     );
   }
@@ -41,7 +45,8 @@ export class ItemsPage extends React.Component {
 ItemsPage.propTypes = {
   items: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired
+  params: PropTypes.object.isRequired,
+  page: PropTypes.number.isRequired
 };
 
 //function mapStateToProps(state, ownProps) {
@@ -58,7 +63,11 @@ function mapStateToProps(state, ownProps) {
   debugger;
   let pageId = ownProps.params.id; // from the path `/page/:id`
   if(pageId === undefined || pageId === null){
-    pageId = 0;
+    pageId = state.props.page;
+    if(pageId === undefined || pageId === null){
+      pageId = 0;
+    }
+
   }
   let items = [];
   if (pageId >= 0) {
@@ -111,8 +120,8 @@ function mapDispatchToProps(dispatch) {
 //    2. Redux concerns in child components
 // 2. Manually wrap (see above);
 // 3. Use bindActionCreators (see above)
-// export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);
-export default ItemsPage;
+export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);
+// export default ItemsPage;
 // can use alternative:
 // const connectedStateAndProps = connect(mapStateToProps, mapDispatchToProps);
 // export default connectedStateAndProps(ItemsPage);
