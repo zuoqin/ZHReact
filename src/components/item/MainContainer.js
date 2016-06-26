@@ -61,11 +61,26 @@ export class MainContainer extends React.Component {
         );
       case 1:
         return (
-          <ManageItemPage
-            item={this.props.item}
-            actions={this.props.actions}
-            params={this.props.params}
-          />
+          <div>
+            <div className="navbar navbar-inverse navbar-fixed-top">
+              <div className="navbar-collapse collapse">
+                <ul className="nav navbar-nav">
+                  {this.numbers.map(function(number, i) {
+                    let boundClick = this.clickPageHeader.bind(this, i);
+                    return (
+                      <Page key={i} onClick={boundClick} id={i} title={number}  />
+                    );
+                  }, this)}
+                </ul>
+              </div>
+            </div>
+            <ManageItemPage
+              item={this.props.item}
+              actions={this.props.actions}
+              params={this.props.params}
+            />
+
+          </div>
         );
       default:
         return (
@@ -79,13 +94,13 @@ export class MainContainer extends React.Component {
     }
 
     /*
-    return (
-      <div>
-        <PagePic pagename={this.props.pagename}/>
-        <PageLink pagename={this.props.pagename}/>
-      </div>
-    );
-    */
+     return (
+     <div>
+     <PagePic pagename={this.props.pagename}/>
+     <PageLink pagename={this.props.pagename}/>
+     </div>
+     );
+     */
   }
 }
 
