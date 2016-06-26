@@ -2,12 +2,13 @@
   "name": "Notebook",
   "version": "1.0.0",
   "description": "Notebook by Alexey Zorchenkov",
-  "scripts": {    
+  "scripts": {
     "start": "./node_modules/.bin/babel-node tools/srcServer.js"
   },
   "author": "Alexey Zorchenkov",
   "license": "MIT",
   "dependencies": {
+    "babel": "^6.5.2",
     "babel-polyfill": "6.8.0",
     "bootstrap": "3.3.6",
     "jquery": "2.2.3",
