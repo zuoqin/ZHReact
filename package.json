@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Notebook by Alexey Zorchenkov",
   "scripts": {
-  	"postinstall": "webpack --config ./webpack-prod.config.js --progress --colors",
+  	"postinstall": "webpack --config ./webpack.config.dev.js --progress --colors",
     "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
