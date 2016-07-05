@@ -4,7 +4,7 @@ var colors = require("colors");
 
 
 process.env.NODE_ENV = 'production';
-console.log('Generating bundle'.blue);
+console.log('Generating minified bundle for production via Webpack. This will take some time...'.blue);
 
 webpack(webpackConfig).run((err, stats) =>{
   if(err){

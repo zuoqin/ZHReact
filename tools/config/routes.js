@@ -89,7 +89,7 @@ let http = require("http");
       {
         thePages[key] = {updated: new Date(2010, 0, 1, 0, 0, 0, 0), items:[]};
       }
-      if(thePages[key].items.length === 0 || ( (today.getDate() - thePages[key].updated)/1000/60 > 10)   ) {
+      if(thePages[key].items.length === 0 || ( (today - thePages[key].updated)/1000/60 > 10)   ) {
         //console.log("key: " + key);
         download( req, "http://www.zerohedge.com/?page="+key, function(req1, data) {
           if (!data) {
@@ -138,7 +138,7 @@ let http = require("http");
                 });
               }
             }
-            thePages[key].updated = today.getDate();
+            thePages[key].updated = new Date();
             res.send(thePages[key].items);
           }
         });
@@ -198,7 +198,7 @@ let http = require("http");
             Body:content,
             Reference: Reference
           };
-          theStories[req.params.id].updated = today.getDate();
+          theStories[req.params.id].updated = new Date();
           theStories[req.params.id].item = item;
           res.send(item);
         }

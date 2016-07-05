@@ -9,7 +9,6 @@ import routes from './routes';
 import {loadItems} from './actions/itemActions';
 import './styles/styles.css'; //Webpack can import CSS files too!
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/toastr/build/toastr.min.css';
 
 const store = configureStore();
 //store.dispatch(loadItems(0));
