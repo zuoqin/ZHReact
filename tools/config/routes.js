@@ -89,13 +89,19 @@ let http = require("http");
       {
         thePages[key] = {updated: new Date(2010, 0, 1, 0, 0, 0, 0), items:[]};
       }
-      if(thePages[key].items.length === 0 || ( (today - thePages[key].updated)/1000/60 > 10)   ) {
-        //console.log("key: " + key);
+
+      //console.log('today = ' + today);
+
+      
+      let timediffinmins = (today - thePages[key].updated)/1000/60;
+      //console.log('updated for key ' + key +  ' = ' + thePages[key].updated + ' and the timepassed = ' + timediffinmins);
+      if(thePages[key].items.length === 0 || (timediffinmins  > 10)   ) {
+        
         download( req, "http://www.zerohedge.com/?page="+key, function(req1, data) {
           if (!data) {
-            res.send("");
+            res.send(thePages[key].items);
           } else {
-            //console.log("Downloaded some data from zerohedge");
+            thePages[key].items = [];
             let ind1 = data.indexOf("view view-zh-frontpage view-id-zh_frontpage view-display-id-page_1 view-dom-id-1", 0);
             let ind5 = 0;
             let j;
