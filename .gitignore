@@ -34,3 +34,11 @@ dist
 
 # Mac files
 .DS_Store
+
+
+# org mode export
+docs/React_vs_Angular.html
+docs/React_vs_Angular.pdf
+docs/React_vs_Angular.tex
+
+

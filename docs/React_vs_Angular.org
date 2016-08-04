@@ -34,6 +34,52 @@ Angualar2 дизайн включает Web component стандарт. Вкра
 
 * Преимущества React
 
+** React выдает сообщения об ошибках быстро и ясно
+
+Если в JSX допущена опечатка, то скрипт не скомпилируется. Это здорово! Мы сразу же знаем в какой строке исходного кода допущена ошибка. React сообщает незамедлительно если таг не закрыт или есть ссылка на свойство, которое более не существует. JSX компилятор сообщает номер строки, где допущена ошибка. Это значительно повышает скорость разработки.
+
+В Angular напротив, если в имени переменной допущена опечатка, то не происходит ничего. Angular 2 молча прерывает выполнение кода вместо сообщения об ошибке на этапе компиляции. Angular 2 ошибается медленно. Приложение может быть запущено, но никакой информации не отображается. Это не здорово.
+
+** React спроектирован с фокусом на JavaScript, что означает простоту
+
+#+BEGIN_SRC Javascript
+
+{{myVar}} //One-way binding
+ngModel="myVar" //Two-way binding
+
+#+END_SRC
+
+
+#+BEGIN_SRC Javascript
+
+{myVar}
+
+#+END_SRC
+
+
+Angular2 поддерживает мастер шаблоны:
+#+BEGIN_SRC Javascript
+
+<ul>
+  <li *ngFor="#hero of heroes">
+    {{hero.name}}
+  </li>
+</ul>
+
+#+END_SRC
+
+По сравнению с этим синтаксисом чистый JavaScript React (хотя свойство key является неотъемлемой частью React):
+#+BEGIN_SRC Javascript
+
+<ul>
+  { heroes.map(hero =>
+    <li key={hero.id}>{hero.name}</li>
+  )}
+</ul>
+
+#+END_SRC
+
+
 # Local Variables:
 # org-latex-inputenc-alist: (("utf8x" . "utf8"))
 # eval: (setq org-latex-default-packages-alist (cons '("mathletters" "ucs" nil) org-latex-default-packages-alist))
