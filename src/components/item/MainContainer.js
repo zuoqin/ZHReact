@@ -5,8 +5,8 @@ import * as itemActions from '../../actions/itemActions';
 import {ItemsPage}  from './ItemsPage';
 import {Page} from '../common/Page';
 import {ManageItemPage} from './ManageItemPage';
-
-
+//require("../../styles/bootstrap.min.css");
+//require("../../styles/bootstrap-theme.min.css");
 
 export class MainContainer extends React.Component {
   constructor(props, context) {
@@ -14,7 +14,8 @@ export class MainContainer extends React.Component {
     this.state = {
       view: props.view
     };
-    this.numbers = ["Home","Page 1","Page 2","Page 3","Page 4","Page 5"];
+    this.home = ["Home"];
+    this.numbers = ["Page 1","Page 2","Page 3","Page 4","Page 5"];
     this.clickPageHeader = this.clickPageHeader.bind(this);
   }
   clickPageHeader(event) {
@@ -39,13 +40,32 @@ export class MainContainer extends React.Component {
       case 0:
         return (
           <div>
-            <div className="navbar navbar-inverse navbar-fixed-top">
-              <div className="navbar-collapse collapse">
+            <div className="navbar navbar-inverse navbar-fixed-top" role="navigation">
+              <div className="navbar-header">
+                <button aria-controls="bs-navbar" aria-expanded="true" className="navbar-toggle"
+                  data-target="#bs-navbar" data-toggle="collapse" type="button">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+                {this.home.map(function(number, i){
+                  let boundClick = this.clickPageHeader.bind(this, i);
+                  return(
+                    <a id="Page0" key={i} href="#" className="navbar-brand" onClick={boundClick}>Home</a>
+                  );
+                },this)}
+          
+                
+              </div >
+          
+              <div className="navbar-collapse collapse" id="bs-navbar">
                 <ul className="nav navbar-nav">
                   {this.numbers.map(function(number, i) {
-                    let boundClick = this.clickPageHeader.bind(this, i);
+                    let k = i + 1;
+                    let boundClick = this.clickPageHeader.bind(this, k);
                     return (
-                      <Page key={i} onClick={boundClick} id={i} title={number}  />
+                      <Page key={k} onClick={boundClick} id={k} title={number}  />
                     );
                   }, this)}
                 </ul>
@@ -63,12 +83,28 @@ export class MainContainer extends React.Component {
         return (
           <div>
             <div className="navbar navbar-inverse navbar-fixed-top">
-              <div className="navbar-collapse collapse">
+              <div className="navbar-header">
+                <button aria-controls="bs-navbar" aria-expanded="true" className="navbar-toggle"
+                  data-target="#bs-navbar" data-toggle="collapse" type="button">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+                {this.home.map(function(number, i){
+                  let boundClick = this.clickPageHeader.bind(this, i);
+                  return(
+                    <a id="Page0" key={i} href="#" className="navbar-brand" onClick={boundClick}>Home</a>
+                  );
+                },this)}               
+              </div>          
+              <div className="navbar-collapse collapse" id="bs-navbar">
                 <ul className="nav navbar-nav">
                   {this.numbers.map(function(number, i) {
-                    let boundClick = this.clickPageHeader.bind(this, i);
+                    let k = i + 1;
+                    let boundClick = this.clickPageHeader.bind(this, k);
                     return (
-                      <Page key={i} onClick={boundClick} id={i} title={number}  />
+                      <Page key={k} onClick={boundClick} id={k} title={number}  />
                     );
                   }, this)}
                 </ul>

@@ -1,7 +1,6 @@
 var webpack = require("webpack") ;
 var path = require("path") ;
 
-
 module.exports = {
   debug: true,
   devtool: 'cheap-module-eval-source-map',
@@ -22,7 +21,12 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
+    })
   ],
   module: {
     loaders: [
