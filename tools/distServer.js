@@ -2,11 +2,12 @@ import express from 'express';
 import path from 'path';
 import open from 'open';
 import colors from 'colors';
-
+import compression from 'compression'
 /* eslint-disable no-console */
 
 const port = process.env.PORT || 5000;
 const app = express();
+
 
 app.use(express.static('dist'));
 
